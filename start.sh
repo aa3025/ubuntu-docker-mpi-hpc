@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # optional if containers are stopped but exist
-
-for i in $(seq 0 10)
+N=$1
+for i in $(seq 0 $N)
 do
 docker start node$i 
 done
