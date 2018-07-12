@@ -8,7 +8,8 @@ Prereq: docker installed
 1) To create and launch e.g. 10 containers (Ubuntu 18 based) just run:
 
 ./create_hpc.sh 10
-will create set of 10 docker containers (node1,node2...node10) which can be reached by mpirun from host using pdsh or ssh
+
+that will create set of 10 docker containers (node1,node2...node10) which can be reached by mpirun from host using pdsh or ssh
 
 2) ./clean.sh to delete all stopped containers and docker hpc-subnet (uncomment 2nd line inside to delete also running containers) 
 
