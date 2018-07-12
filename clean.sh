@@ -5,7 +5,8 @@
 docker rm $(docker ps -a -q)
 
 # brutal: (will remove also running ones)
-#docker rm --force $(docker ps -a -q)
+docker rm --force $(docker ps -a -q)
 
 # remove network for hpc
 docker network rm hpcnet
+rm -fr nodes hosts machines
