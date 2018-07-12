@@ -1,6 +1,7 @@
 # ubuntu-docker-mpi-hpc
 scripts for setting mpi hpc with docker for linux hosts
 
+0) chmod +x *.sh
 
 1) To create and launch e.g. 10 containers (Ubuntu 18 based) just run:
 
