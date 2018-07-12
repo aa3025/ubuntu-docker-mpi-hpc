@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #number of nodes to create
-N=10
+N=$1
 dockernet="172.18.0"
 
 echo "" > ./hosts
