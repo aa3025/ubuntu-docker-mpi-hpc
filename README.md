@@ -4,6 +4,7 @@ Scripts for setting MPI SLURM HPC with docker for linux Ubuntu hosts
 Prereq: docker installed, user has docker rights
 
 ========================================================================
+
 Creation of HPC
 
 0) create ssh-key (ssh-keygen) and copy the public part (ssh-copy-id localhost)  into your ~/.ssh/authorized_keys -- ~/.ssh folder is copied inside the containers for paswordless connection with the host
@@ -25,6 +26,7 @@ The only difference between master and nodes containers is that slurmctld is sta
 Once deployed, you can ssh to master ("ssh 172.18.0.100" and rule your HPC)
 
 =============================================================================
+
 Destruction of the cluster:
 
 3)
