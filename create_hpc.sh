@@ -48,8 +48,8 @@ if [[ "$N" -eq 0 ]]; then
     exit 0
 fi
 
-rm -fr ./slurm-llnl/slurm.conf
-cp -f slurm.conf.org ./slurm-llnl/slurm.conf
+rm -fr ./slurm.conf
+cp -f ./slurm.conf.org ./slurm.conf
 
 nodeconfig=$(cat nodeconfig.txt)
 echo "" > machines
@@ -60,7 +60,7 @@ echo creating node$i
 	IP=$dockernet.$nodenr
 # Procs=1:4(hw) Boards=1:1(hw) SocketsPerBoard=1:1(hw) CoresPerSocket=1:2(hw) ThreadsPerCore=1:2(hw)
 
-echo NodeName=node$i $nodeconfig >> ./slurm-llnl/slurm.conf
+echo NodeName=node$i $nodeconfig >> ./slurm.conf
 
 	docker run -ti -d -v ~/.ssh:/root/.ssh $hpcnet --ip $IP --name node$i --hostname node$i aa3025/ubuntu-mpi-hpc bash
 	sleep 2
@@ -71,18 +71,19 @@ echo NodeName=node$i $nodeconfig >> ./slurm-llnl/slurm.conf
 done
 
 # Partitions
-echo PartitionName=all Nodes=node[1-$N] Default=YES MaxTime=24:00:00 State=UP >> ./slurm-llnl/slurm.conf
+echo PartitionName=all Nodes=node[1-$N] Default=YES MaxTime=24:00:00 State=UP >> ./slurm.conf
 
 docker cp ./machines master:/etc/machines
-docker cp ./slurm-llnl/slurm.conf master:/etc/slurm-llnl/slurm.conf
+docker cp ./slurm.conf master:/etc/slurm-llnl/slurm.conf
 docker exec master bash -c "service munge start"
 docker exec master bash -c "service slurmctld start"
-docker exec master bash -c "echo export PDSH_RCMD_TYPE='ssh'>> /etc/bash.bashrc"
-docker exec master bash -c "echo export WCOLL=/etc/machines >> /etc/bash.bashrc"
+
+#docker exec master bash -c "echo export PDSH_RCMD_TYPE='ssh'>> /etc/bash.bashrc"
+#docker exec master bash -c "echo export WCOLL=/etc/machines >> /etc/bash.bashrc"
 
 for i in $(seq 1 $N)
 do
-    docker cp ./slurm-llnl/slurm.conf node$i:/etc/slurm-llnl/slurm.conf
+    docker cp ./slurm.conf node$i:/etc/slurm-llnl/slurm.conf
     docker exec node$i bash -c "service munge start"
     docker exec node$i bash -c "service slurmd start"
 done
