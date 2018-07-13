@@ -39,4 +39,5 @@ Destruction of the cluster:
 -- will run CMD across all containers in series
 
 --------------------------
-These scripts use my docker repository aa3025/ubuntu-mpi-hpc (1 node of HPC, can manually pull as "docker pull aa3025/ubuntu-mpi-hpc")
+These scripts use my docker repository aa3025/ubuntu-docker-mpi-hpc (1 node of HPC, can manually pull as "docker pull aa3025/ubuntu-docker-mpi-hpc")
+https://hub.docker.com/r/aa3025/ubuntu-docker-mpi-hpc/
