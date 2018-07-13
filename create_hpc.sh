@@ -2,7 +2,7 @@
 
 #number of nodes to create
 N=$1
-
+# create different subnet for docker (normally main subnet is 172.17.0.0/24), this will be dedicated to HPC
 dockernet="172.18.0"
 
 echo "" > ./hosts
