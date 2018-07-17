@@ -6,11 +6,11 @@ N=$1
 dockernet="172.19.0"
 
 # shared folder for HPC's nodes (e.g. for slurm jobs)
-mkdir ./share
+mkdir -p ./share
+mkdir -p ./temp
 
-
-echo "" > ./hosts
-echo "" > ./nodes
+echo "" > ./temp/hosts
+echo "" > ./temp/nodes
 if [[ "$N" -eq 0 ]]; then
     N=0
 fi
@@ -19,10 +19,10 @@ for i in $(seq 0 $N)
 do
     nodenr=$((100 + $i))
     if [[ "$i" -eq 0 ]]; then
-	echo $dockernet.$nodenr master >> hosts
+	echo $dockernet.$nodenr master >> ./temp/hosts
     else
-	echo $dockernet.$nodenr node$i >> hosts
-	echo $dockernet.$nodenr >> ./nodes
+	echo $dockernet.$nodenr node$i >> ./temp/hosts
+	echo $dockernet.$nodenr >> ./temp/nodes
     fi
 done
 
@@ -43,7 +43,7 @@ echo creating master
 	docker run -ti -d -v ~/.ssh:/root/.ssh \
 			    -v share:/share $hpcnet --ip $IP --name master --hostname master aa3025/ubuntu-docker-mpi-hpc bash
 	sleep 2
-	docker cp ./hosts master:/hosts
+	docker cp ./temp/hosts master:/hosts
 	docker exec master bash -c "cat /hosts >> /etc/hosts"
 
 	docker exec master bash -c "service ssh start"
@@ -63,14 +63,13 @@ do
 echo creating node$i
 	nodenr=$((100 + $i))
 	IP=$dockernet.$nodenr
-# Procs=1:4(hw) Boards=1:1(hw) SocketsPerBoard=1:1(hw) CoresPerSocket=1:2(hw) ThreadsPerCore=1:2(hw)
 
 echo NodeName=node$i $nodeconfig >> ./slurm.conf
 
 	docker run -ti -d -v ~/.ssh:/root/.ssh \
 			  -v share:/share $hpcnet --ip $IP --name node$i --hostname node$i aa3025/ubuntu-docker-mpi-hpc bash
 	sleep 2
-	docker cp ./hosts node$i:/hosts
+	docker cp ./temp/hosts node$i:/hosts
 	echo node$i >> machines
 	docker exec node$i bash -c "cat /hosts >> /etc/hosts"
 	docker exec node$i bash -c "service ssh start"
@@ -84,7 +83,7 @@ docker cp ./slurm.conf master:/etc/slurm-llnl/slurm.conf
 docker exec master bash -c "service munge start"
 docker exec master bash -c "service slurmctld start"
 
-#docker exec master bash -c "echo export PDSH_RCMD_TYPE='ssh'>> /etc/bash.bashrc"
+#docker exec master bash -c "echo export PDSH_RCMD_TYPE='ssh'>> /etc/bash.bashrc"  (this was added to image)
 #docker exec master bash -c "echo export WCOLL=/etc/machines >> /etc/bash.bashrc"
 
 for i in $(seq 1 $N)
@@ -99,9 +98,15 @@ export PDSH_RCMD_TYPE='ssh'
 echo "Host $dockernet.*" >> ~/.ssh/config
 echo "   StrictHostKeyChecking no" >> ~/.ssh/config
 
+#given pdsh is installed locally we can talk to the nodes
 pdsh -w ^nodes hostname
+
+
+
+# or the same via the master node
 docker exec master bash -c "pdsh hostname"
+# you can install stuff on your HPC nodes with e.g.
+# docker exec master bash -c "pdsh yum install octave -y"
 
-#apt install openmpi-bin -y
-
-mpirun --allow-run-as-root -n $N -hostfile nodes hostname
+# apt install openmpi-bin -y
+# mpirun --allow-run-as-root -n $N -hostfile nodes hostname
