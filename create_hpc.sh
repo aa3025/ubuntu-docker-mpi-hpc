@@ -3,7 +3,11 @@
 #number of nodes to create
 N=$1
 # create different subnet for docker (normally main subnet is 172.17.0.0/24), this will be dedicated to HPC
-dockernet="172.18.0"
+dockernet="172.19.0"
+
+# shared folder for HPC's nodes (e.g. for slurm jobs)
+mkdir ./share
+
 
 echo "" > ./hosts
 echo "" > ./nodes
@@ -36,7 +40,8 @@ hpcnet="--net hpcnet"
 echo creating master
 	nodenr=100
 	IP=$dockernet.$nodenr
-	docker run -ti -d -v ~/.ssh:/root/.ssh $hpcnet --ip $IP --name master --hostname master aa3025/ubuntu-docker-mpi-hpc bash
+	docker run -ti -d -v ~/.ssh:/root/.ssh \
+			    -v share:/share $hpcnet --ip $IP --name master --hostname master aa3025/ubuntu-docker-mpi-hpc bash
 	sleep 2
 	docker cp ./hosts master:/hosts
 	docker exec master bash -c "cat /hosts >> /etc/hosts"
@@ -62,7 +67,8 @@ echo creating node$i
 
 echo NodeName=node$i $nodeconfig >> ./slurm.conf
 
-	docker run -ti -d -v ~/.ssh:/root/.ssh $hpcnet --ip $IP --name node$i --hostname node$i aa3025/ubuntu-docker-mpi-hpc bash
+	docker run -ti -d -v ~/.ssh:/root/.ssh \
+			  -v share:/share $hpcnet --ip $IP --name node$i --hostname node$i aa3025/ubuntu-docker-mpi-hpc bash
 	sleep 2
 	docker cp ./hosts node$i:/hosts
 	echo node$i >> machines

@@ -38,6 +38,13 @@ Destruction of the cluster:
 
 -- will run CMD across all containers in series
 
+
+6) optional script ./hpc.sh start|stop N  
+
+ -- start/stop existing N containers (nodes[1-N] and master)
+
 --------------------------
+
+
 These scripts use my docker repository aa3025/ubuntu-docker-mpi-hpc (1 node of HPC, can manually pull as "docker pull aa3025/ubuntu-docker-mpi-hpc")
 https://hub.docker.com/r/aa3025/ubuntu-docker-mpi-hpc/
