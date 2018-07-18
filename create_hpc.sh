@@ -97,6 +97,7 @@ export PDSH_RCMD_TYPE='ssh'
 
 echo "Host $dockernet.*" >> ~/.ssh/config
 echo "   StrictHostKeyChecking no" >> ~/.ssh/config
+chmod 600 ~/.ssh/config
 
 #given pdsh is installed locally we can talk to the nodes
 pdsh -w ^nodes hostname
