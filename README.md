@@ -6,6 +6,7 @@ Prereq: docker installed, user has docker rights
 ========================================================================
 
 Creation of HPC
+-1) add your user to docker group or (run it all as a root):  sudo usermod -aG docker $USER
 
 0) create ssh-key (ssh-keygen) and copy the public part (ssh-copy-id localhost)  into your ~/.ssh/authorized_keys -- ~/.ssh folder is copied inside the containers for paswordless connection with the host
 
