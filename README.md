@@ -25,7 +25,7 @@ Creation of HPC
 Will only create master container (useful for making changes to base container and saving to docker image to use as a template for nodes)
 The only difference between master and nodes' containers is that slurmctld is started on master and slurmd on nodes. Base image is identical. All changes between master and nodes are implemented during the launch of the containers.
 
-Once deployed, you can ssh to master ("ssh 172.18.0.100" and rule your HPC (e.g. try "pdsh hostname")
+Once deployed, you can ssh to master ("ssh 172.19.0.100" and rule your HPC (e.g. try "pdsh hostname")
 
 =============================================================================
 
