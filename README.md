@@ -1,7 +1,7 @@
 # ubuntu-docker-mpi-hpc
 Scripts for setting MPI SLURM HPC with docker for linux Ubuntu hosts
 
-Prereq: docker installed, user has docker rights
+Prereq: docker.io package installed, user has docker rights or sudo priv's.
 
 ========================================================================
 
