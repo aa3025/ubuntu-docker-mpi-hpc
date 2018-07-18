@@ -56,7 +56,7 @@ echo creating master container
 	nodenr=100
 	IP=$dockernet.$nodenr
 	docker run -ti -d -v share:/share $hpcnet --ip $IP --name master --hostname master aa3025/ubuntu-docker-mpi-hpc bash
-	sleep 2
+	sleep 1
 	docker cp ./temp/hosts master:/hosts
 	docker exec master bash -c "cat /hosts >> /etc/hosts"
 	docker cp .ssh master:/root/
@@ -79,7 +79,7 @@ echo creating node$i
 echo NodeName=node$i $nodeconfig >> ./temp/slurm.conf
 
 	docker run -ti -d -v share:/share $hpcnet --ip $IP --name node$i --hostname node$i aa3025/ubuntu-docker-mpi-hpc bash
-	sleep 2
+	sleep 1
 	docker cp ./temp/hosts node$i:/hosts
 	echo node$i >> ./temp/machines
 	docker exec node$i bash -c "cat /hosts >> /etc/hosts"
