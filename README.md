@@ -11,7 +11,7 @@ Creation of HPC
 
 2) create ssh-key (ssh-keygen) and copy the public part (ssh-copy-id localhost)  into your ~/.ssh/authorized_keys. The content of ~/.ssh folder is shared to the containers for paswordless connection with the host and between the containers (master and nodes).
 
-3) chmod +x *.sh (optional, normally gitgub preserves permissions)
+3) chmod +x *.sh (if needed, normally GitHub preserves permissions)
 
 4) if necessary edit file nodeconfig.txt to match your computer CPU specs = this will be nodes specs for SLURM slurm.conf. If they do not match real hardware slurmd may fail to start in nodes' containers.
 
