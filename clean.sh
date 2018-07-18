@@ -9,4 +9,4 @@ docker rm --force $(docker ps -a -q)
 
 # remove network for hpc
 docker network rm hpcnet
-rm -fr nodes hosts machines
+rm -fr ./temp ./.ssh
