@@ -9,9 +9,9 @@ Creation of HPC
 
 1) add your user to docker group (or run it all as a root):  sudo usermod -aG docker $USER
 
-2) create ssh-key (ssh-keygen) and copy the public part (ssh-copy-id localhost)  into your ~/.ssh/authorized_keys -- ~/.ssh folder is copied inside the containers for paswordless connection with the host
+2) create ssh-key (ssh-keygen) and copy the public part (ssh-copy-id localhost)  into your ~/.ssh/authorized_keys. The content of ~/.ssh folder is shared to the containers for paswordless connection with the host and between the containers (master and nodes).
 
-3) chmod +x *.sh
+3) chmod +x *.sh (optional, normally gitgub preserves permissions)
 
 4) if necessary edit file nodeconfig.txt to match your computer CPU specs = this will be nodes specs for SLURM slurm.conf. If they do not match real hardware slurmd may fail to start in nodes' containers.
 
