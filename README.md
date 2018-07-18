@@ -6,15 +6,16 @@ Prereq: docker installed, user has docker rights
 ========================================================================
 
 Creation of HPC
--1) add your user to docker group or (run it all as a root):  sudo usermod -aG docker $USER
 
-0) create ssh-key (ssh-keygen) and copy the public part (ssh-copy-id localhost)  into your ~/.ssh/authorized_keys -- ~/.ssh folder is copied inside the containers for paswordless connection with the host
+1) add your user to docker group or (run it all as a root):  sudo usermod -aG docker $USER
 
-1) chmod +x *.sh
+2) create ssh-key (ssh-keygen) and copy the public part (ssh-copy-id localhost)  into your ~/.ssh/authorized_keys -- ~/.ssh folder is copied inside the containers for paswordless connection with the host
 
-2) if necessary edit file nodeconfig.txt to match your computer CPU specs = this will be nodes specs for SLURM slurm.conf. If they do not match real hardware slurmd may fail to start in nodes' containers.
+3) chmod +x *.sh
 
-3) To create and launch master node (a.k.a headnode) and, say, 10 compute-nodes (Ubuntu 18 based) just run:
+4) if necessary edit file nodeconfig.txt to match your computer CPU specs = this will be nodes specs for SLURM slurm.conf. If they do not match real hardware slurmd may fail to start in nodes' containers.
+
+5) To create and launch master node (a.k.a headnode) and, say, 10 compute-nodes (Ubuntu 18 based) just run:
 
 ./create_hpc.sh 10
 
@@ -30,17 +31,17 @@ Once deployed, you can ssh to master ("ssh 172.18.0.100" and rule your HPC (e.g.
 
 Destruction of the cluster:
 
-4) auxiliary script ./clean.sh 
+6) auxiliary script ./clean.sh 
 
 -- will delete all stopped containers and temp config files as well as docker hpc-subnet (uncomment 2nd line inside to delete also running containers)
 
-5) auxiliary script
+7) auxiliary script
 ./tentakel.sh CMD
 
 -- will run CMD across all containers in series
 
 
-6) optional script ./hpc.sh start|stop N  
+8) optional script ./hpc.sh start|stop N  
 
  -- start/stop existing N containers (nodes[1-N] and master)
 
